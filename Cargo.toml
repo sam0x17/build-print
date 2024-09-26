@@ -7,5 +7,8 @@ keywords = ["build", "print", "build-script", "log"]
 description = "build-print is a crate that allows you to print non-warning messages from within rust build scripts"
 license = "MIT"
 
+[workspace]
+members = ["examples/basic"]
+
 [dependencies]
 colored = "2"
