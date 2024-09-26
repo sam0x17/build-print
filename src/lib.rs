@@ -23,6 +23,16 @@ macro_rules! info {
     }
 }
 
+#[macro_export]
+macro_rules! warn {
+    ($($arg:tt)+) => {
+        {
+            use $crate::__hidden::*;
+            $crate::println!("{} {}", "warning:".yellow().bold(), ::std::format!($($arg)+));
+        }
+    }
+}
+
 #[test]
 fn test_println_compiles() {
     println!();
@@ -36,4 +46,11 @@ fn test_info_compiles() {
     info!("hello world!");
     info!("hello {}", 33);
     info!("hello {}, {}, {}", 1, 2, 3);
+}
+
+#[test]
+fn test_warn_compiles() {
+    warn!("hello world!");
+    warn!("hello {}", 33);
+    warn!("hello {}, {}, {}", 1, 2, 3);
 }
