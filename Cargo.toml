@@ -8,3 +8,4 @@ description = "build-print is a crate that allows you to print non-warning messa
 license = "MIT"
 
 [dependencies]
+colored = "2"
