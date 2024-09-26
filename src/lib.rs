@@ -14,42 +14,40 @@ macro_rules! println {
 }
 
 #[macro_export]
-macro_rules! info {
-    ($($arg:tt)+) => {
+macro_rules! custom_println {
+    ($prefix:literal, $prefix_color:ident, $($arg:tt)*) => {
         {
             use $crate::__hidden::*;
-            $crate::println!("{} {}", "info:".cyan().bold(), ::std::format!($($arg)+));
+            $crate::println!("{} {}", ::std::format!("{}:", $prefix).$prefix_color().bold(), ::std::format!($($arg)+));
         }
+    }
+}
+
+#[macro_export]
+macro_rules! info {
+    ($($arg:tt)+) => {
+        $crate::custom_println!("info", green, $($arg)+);
     }
 }
 
 #[macro_export]
 macro_rules! warn {
     ($($arg:tt)+) => {
-        {
-            use $crate::__hidden::*;
-            $crate::println!("{} {}", "warning:".yellow().bold(), ::std::format!($($arg)+));
-        }
+        $crate::custom_println!("warning", yellow, $($arg)+);
     }
 }
 
 #[macro_export]
 macro_rules! error {
     ($($arg:tt)+) => {
-        {
-            use $crate::__hidden::*;
-            $crate::println!("{} {}", "error:".red().bold(), ::std::format!($($arg)+));
-        }
+        $crate::custom_println!("error", red, $($arg)+);
     }
 }
 
 #[macro_export]
 macro_rules! note {
     ($($arg:tt)+) => {
-        {
-            use $crate::__hidden::*;
-            $crate::println!("{} {}", "note:".cyan().bold(), ::std::format!($($arg)+));
-        }
+        $crate::custom_println!("note", cyan, $($arg)+);
     }
 }
 
