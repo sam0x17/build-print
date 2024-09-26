@@ -1,8 +1,3 @@
-#[doc(hidden)]
-pub mod __hidden {
-    pub use colored::*;
-}
-
 #[macro_export]
 macro_rules! println {
     () => {
@@ -15,12 +10,18 @@ macro_rules! println {
 
 #[macro_export]
 macro_rules! custom_println {
-    ($prefix:literal, $prefix_color:ident, $($arg:tt)*) => {
-        {
-            use $crate::__hidden::*;
-            $crate::println!("{} {}", ::std::format!("{}:", $prefix).$prefix_color().bold(), ::std::format!($($arg)+));
-        }
-    }
+    ($prefix:literal, cyan, $($arg:tt)*) => {
+        $crate::println!("   \x1b[1m\x1b[36m{}:\x1b[0m {}", $prefix, ::std::format!($($arg)+));
+    };
+    ($prefix:literal, green, $($arg:tt)*) => {
+        $crate::println!("   \x1b[1m\x1b[32m{}:\x1b[0m {}", $prefix, ::std::format!($($arg)+));
+    };
+    ($prefix:literal, yellow, $($arg:tt)*) => {
+        $crate::println!("   \x1b[1m\x1b[33m{}:\x1b[0m {}", $prefix, ::std::format!($($arg)+));
+    };
+    ($prefix:literal, red, $($arg:tt)*) => {
+        $crate::println!("   \x1b[1m\x1b[31m{}:\x1b[0m {}", $prefix, ::std::format!($($arg)+));
+    };
 }
 
 #[macro_export]

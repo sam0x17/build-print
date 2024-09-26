@@ -10,5 +10,3 @@ license = "MIT"
 [workspace]
 members = ["examples/basic"]
 
-[dependencies]
-colored = "2"
