@@ -1,0 +1,10 @@
+[package]
+name = "build-print"
+version = "0.1.0"
+edition = "2021"
+authors = ["sam0x17"]
+keywords = ["build", "print", "build-script", "log"]
+description = "build-print is a crate that allows you to print non-warning messages from within rust build scripts"
+license = "MIT"
+
+[dependencies]
