@@ -43,6 +43,16 @@ macro_rules! error {
     }
 }
 
+#[macro_export]
+macro_rules! note {
+    ($($arg:tt)+) => {
+        {
+            use $crate::__hidden::*;
+            $crate::println!("{} {}", "note:".cyan().bold(), ::std::format!($($arg)+));
+        }
+    }
+}
+
 #[test]
 fn test_println_compiles() {
     println!();
@@ -70,4 +80,11 @@ fn test_error_compiles() {
     error!("hello world!");
     error!("hello {}", 33);
     error!("hello {}, {}, {}", 1, 2, 3);
+}
+
+#[test]
+fn test_note_compiles() {
+    note!("hello world!");
+    note!("hello {}", 33);
+    note!("hello {}, {}, {}", 1, 2, 3);
 }
