@@ -6,12 +6,27 @@
 //! * `panic!(..)` to halt the build process and print an error message
 //!
 //! Regular `println!` statements are not shown during the build process, so this crate hijacks
-//! the `cargo:warning=...` variant using ANSI escape sequences to produce a working `println!`
-//! macro as well as `info!`, `warn!`, `error!`, and `note!` macros that following the
-//! indentation and coloring of standard cargo diagnostic messages.
+//! the `cargo:warning=...` variant using ANSI escape sequences to produce a working
+//! [`println!`] macro as well as [`info!`], [`warn!`], [`error!`], and [`note!`] macros that
+//! following the indentation and coloring of standard cargo diagnostic messages.
 //!
-//! You can also define your own custom print messages using the `custom_println!` macro, which
-//! is also the basis for the other macros.
+//! You can also define your own custom print messages using the [`custom_println!`] macro,
+//! which is also the basis for the other macros.
+//!
+//! # Example
+//! ```
+//! // build.rs
+//! use build_print::{println, *};
+//!
+//! fn main() {
+//!     println!("regular println works");
+//!     info!("hello world");
+//!     warn!("hello world");
+//!     error!("hello world");
+//!     note!("hello world");
+//!     custom_println!("Documenting", green, "hello world");
+//! }
+//! ```
 
 /// Analogue of [`std::println!`] that allows for printing to the console during a build
 /// script.
@@ -33,16 +48,16 @@ macro_rules! println {
 #[macro_export]
 macro_rules! custom_println {
     ($prefix:literal, cyan, $($arg:tt)*) => {
-        $crate::println!("   \x1b[1m\x1b[36m{}:\x1b[0m {}", $prefix, ::std::format!($($arg)+));
+        $crate::println!("   \x1b[1m\x1b[36m{}\x1b[0m {}", $prefix, ::std::format!($($arg)+));
     };
     ($prefix:literal, green, $($arg:tt)*) => {
-        $crate::println!("   \x1b[1m\x1b[32m{}:\x1b[0m {}", $prefix, ::std::format!($($arg)+));
+        $crate::println!("   \x1b[1m\x1b[32m{}\x1b[0m {}", $prefix, ::std::format!($($arg)+));
     };
     ($prefix:literal, yellow, $($arg:tt)*) => {
-        $crate::println!("   \x1b[1m\x1b[33m{}:\x1b[0m {}", $prefix, ::std::format!($($arg)+));
+        $crate::println!("   \x1b[1m\x1b[33m{}\x1b[0m {}", $prefix, ::std::format!($($arg)+));
     };
     ($prefix:literal, red, $($arg:tt)*) => {
-        $crate::println!("   \x1b[1m\x1b[31m{}:\x1b[0m {}", $prefix, ::std::format!($($arg)+));
+        $crate::println!("   \x1b[1m\x1b[31m{}\x1b[0m {}", $prefix, ::std::format!($($arg)+));
     };
 }
 
@@ -53,7 +68,7 @@ macro_rules! custom_println {
 #[macro_export]
 macro_rules! info {
     ($($arg:tt)+) => {
-        $crate::custom_println!("info", green, $($arg)+);
+        $crate::custom_println!("info:", green, $($arg)+);
     }
 }
 
@@ -64,7 +79,7 @@ macro_rules! info {
 #[macro_export]
 macro_rules! warn {
     ($($arg:tt)+) => {
-        $crate::custom_println!("warning", yellow, $($arg)+);
+        $crate::custom_println!("warning:", yellow, $($arg)+);
     }
 }
 
@@ -75,7 +90,7 @@ macro_rules! warn {
 #[macro_export]
 macro_rules! error {
     ($($arg:tt)+) => {
-        $crate::custom_println!("error", red, $($arg)+);
+        $crate::custom_println!("error:", red, $($arg)+);
     }
 }
 
@@ -86,7 +101,7 @@ macro_rules! error {
 #[macro_export]
 macro_rules! note {
     ($($arg:tt)+) => {
-        $crate::custom_println!("note", cyan, $($arg)+);
+        $crate::custom_println!("note:", cyan, $($arg)+);
     }
 }
 
