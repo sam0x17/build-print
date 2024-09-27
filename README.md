@@ -30,4 +30,4 @@ fn main() {
 }
 ```
 
-![Screenshot](examples/screenshot_01.png)
+![](examples/screenshot_01.png)
