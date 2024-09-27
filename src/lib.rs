@@ -13,6 +13,8 @@
 //! You can also define your own custom print messages using the `custom_println!` macro, which
 //! is also the basis for the other macros.
 
+/// Analogue of [`std::println!`] that allows for printing to the console during a build
+/// script.
 #[macro_export]
 macro_rules! println {
     () => {
@@ -23,6 +25,11 @@ macro_rules! println {
     }
 }
 
+/// Allows for custom print messages with a specified prefix and color.
+///
+/// usage: `custom_println!("prefix", color, "message")` where color is one of `cyan`, `green`,
+/// `yellow`, or `red`. The `prefix` will be shown in bold in the specified color, followed by
+/// a colon and the message.
 #[macro_export]
 macro_rules! custom_println {
     ($prefix:literal, cyan, $($arg:tt)*) => {
@@ -39,6 +46,10 @@ macro_rules! custom_println {
     };
 }
 
+/// Can be used to print info messages during a build script.
+///
+/// Follows the same calling semantics as [`std::println!`]. Messages are prefixed with "info:"
+/// in green.
 #[macro_export]
 macro_rules! info {
     ($($arg:tt)+) => {
@@ -46,6 +57,10 @@ macro_rules! info {
     }
 }
 
+/// Can be used to print warning messages during a build script.
+///
+/// Follows the same calling semantics as [`std::println!`]. Messages are prefixed with
+/// "warning:" in yellow.
 #[macro_export]
 macro_rules! warn {
     ($($arg:tt)+) => {
@@ -53,6 +68,10 @@ macro_rules! warn {
     }
 }
 
+/// Can be used to print error messages during a build script without aborting the build.
+///
+/// Follows the same calling semantics as [`std::println!`]. Messages are prefixed with
+/// "error:" in red.
 #[macro_export]
 macro_rules! error {
     ($($arg:tt)+) => {
@@ -60,6 +79,10 @@ macro_rules! error {
     }
 }
 
+/// Can be used to print note messages during a build script.
+///
+/// Follows the same calling semantics as [`std::println!`]. Messages are prefixed with
+/// "note:" in cyan.
 #[macro_export]
 macro_rules! note {
     ($($arg:tt)+) => {
