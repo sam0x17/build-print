@@ -9,4 +9,3 @@ license = "MIT"
 
 [workspace]
 members = ["examples/basic"]
-
